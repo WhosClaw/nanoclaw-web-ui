@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NanoClaw Web UI</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Auth Screen -->
+    <div id="auth-screen" class="screen">
+      <div class="auth-container">
+        <h1>NanoClaw</h1>
+        <p>Web Chat Interface</p>
+        <form id="auth-form">
+          <div id="token-input-container">
+            <label for="auth-token">Auth Token (if required)</label>
+            <input
+              type="password"
+              id="auth-token"
+              placeholder="Enter auth token..."
+              autocomplete="off"
+            >
+          </div>
+          <button type="submit" id="connect-btn">Connect</button>
+        </form>
+        <p id="auth-error" class="error"></p>
+      </div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div id="chat-screen" class="screen hidden">
+      <div class="chat-container">
+        <header class="chat-header">
+          <h1>NanoClaw</h1>
+          <div class="connection-status">
+            <span id="status-dot" class="status-dot"></span>
+            <span id="status-text">Connecting...</span>
+          </div>
+        </header>
+
+        <main id="messages" class="messages">
+          <div class="welcome-message">
+            <p>Connected to <strong id="assistant-name">NanoClaw</strong></p>
+            <p>Send a message to start the conversation.</p>
+          </div>
+        </main>
+
+        <footer class="input-area">
+          <form id="message-form">
+            <input
+              type="text"
+              id="message-input"
+              placeholder="Type a message..."
+              autocomplete="off"
+              disabled
+            >
+            <button type="submit" id="send-btn" disabled>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+            </button>
+          </form>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
