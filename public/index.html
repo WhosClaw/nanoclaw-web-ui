@@ -4,26 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NanoClaw Web UI</title>
+  <!-- Highlight.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body data-language="en" data-theme="dark">
   <div id="app">
     <!-- Auth Screen -->
     <div id="auth-screen" class="screen">
       <div class="auth-container">
-        <h1>NanoClaw</h1>
-        <p>Web Chat Interface</p>
+        <!-- Language & Theme Selector -->
+        <div class="auth-options">
+          <div class="language-selector">
+            <button id="lang-en" class="lang-btn active" data-lang="en">EN</button>
+            <button id="lang-zh" class="lang-btn" data-lang="zh-CN">中文</button>
+          </div>
+        </div>
+
+        <h1 data-i18n="auth.title">NanoClaw</h1>
+        <p data-i18n="auth.subtitle">Web Chat Interface</p>
         <form id="auth-form">
           <div id="token-input-container">
-            <label for="auth-token">Auth Token (if required)</label>
+            <label for="auth-token" data-i18n="auth.tokenLabel">Auth Token (if required)</label>
             <input
               type="password"
               id="auth-token"
+              data-i18n-placeholder="auth.tokenPlaceholder"
               placeholder="Enter auth token..."
               autocomplete="off"
             >
           </div>
-          <button type="submit" id="connect-btn">Connect</button>
+          <button type="submit" id="connect-btn" data-i18n="auth.connectBtn">Connect</button>
         </form>
         <p id="auth-error" class="error"></p>
       </div>
@@ -31,42 +42,220 @@
 
     <!-- Chat Screen -->
     <div id="chat-screen" class="screen hidden">
-      <div class="chat-container">
-        <header class="chat-header">
-          <h1>NanoClaw</h1>
-          <div class="connection-status">
-            <span id="status-dot" class="status-dot"></span>
-            <span id="status-text">Connecting...</span>
-          </div>
-        </header>
-
-        <main id="messages" class="messages">
-          <div class="welcome-message">
-            <p>Connected to <strong id="assistant-name">NanoClaw</strong></p>
-            <p>Send a message to start the conversation.</p>
-          </div>
-        </main>
-
-        <footer class="input-area">
-          <form id="message-form">
-            <input
-              type="text"
-              id="message-input"
-              placeholder="Type a message..."
-              autocomplete="off"
-              disabled
-            >
-            <button type="submit" id="send-btn" disabled>
+      <div class="chat-layout">
+        <!-- Session Sidebar -->
+        <aside id="session-sidebar" class="session-sidebar">
+          <div class="sidebar-header">
+            <h2 data-i18n="chat.sessions">Sessions</h2>
+            <button id="new-chat-btn" class="icon-btn" data-i18n-title="chat.newChat">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                <path d="M12 5v14M5 12h14"/>
               </svg>
             </button>
-          </form>
-        </footer>
+          </div>
+          <div id="session-list" class="session-list">
+            <!-- Sessions populated by JS -->
+          </div>
+          <!-- Sidebar footer with stats -->
+          <div class="sidebar-footer">
+            <button id="stats-btn" class="sidebar-action-btn" data-i18n-title="stats.title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M12 8v4"/>
+                <path d="M12 16v4"/>
+                <line x1="8" y1="3" x2="8" y2="21"/>
+                <line x1="16" y1="3" x2="16" y2="21"/>
+              </svg>
+              <span data-i18n="stats.button">Statistics</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <div class="chat-container">
+          <!-- Search Bar -->
+          <div id="search-bar" class="search-bar hidden">
+            <div class="search-input-wrapper">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                type="text"
+                id="search-input"
+                data-i18n-placeholder="search.placeholder"
+                placeholder="Search messages..."
+                autocomplete="off"
+              >
+              <button id="search-close" class="search-close-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+
+          <header class="chat-header">
+            <div class="header-left">
+              <!-- Toggle sidebar button (mobile) -->
+              <button id="toggle-sidebar-btn" class="icon-btn mobile-only" data-i18n-title="chat.toggleSidebar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12h18M3 6h18M3 18h18"/>
+                </svg>
+              </button>
+              <h1 data-i18n="appName">NanoClaw</h1>
+
+              <!-- Enhanced connection status -->
+              <div class="connection-status">
+                <div class="status-indicator">
+                  <span id="status-dot" class="status-dot"></span>
+                  <span id="status-text" class="status-text">Connecting...</span>
+                  <span id="status-detail" class="status-detail"></span>
+                </div>
+                <!-- Connection quality indicator -->
+                <div id="connection-quality" class="connection-quality" data-i18n-title="latency.quality">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="header-right">
+              <!-- Search button -->
+              <button id="search-toggle-btn" class="icon-btn header-icon-btn" data-i18n-title="search.toggle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+
+              <!-- Theme toggle -->
+              <button id="theme-toggle" class="icon-btn header-icon-btn" data-i18n-title="theme.toggle">
+                <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m0-12.84l1.42-1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 18.36l1.42-1.42"/>
+                </svg>
+                <svg class="theme-icon-moon hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </button>
+
+              <!-- Language toggle -->
+              <button id="lang-toggle" class="lang-toggle header-btn" data-i18n-title="i18n.toggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/>
+                </svg>
+                <span class="lang-label">EN</span>
+              </button>
+
+              <!-- Export and Clear buttons added dynamically by JS -->
+            </div>
+          </header>
+
+          <!-- Agent typing indicator -->
+          <div id="agent-typing" class="agent-typing hidden">
+            <span class="typing-avatar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                <path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V8z"/>
+                <path d="M12 16v-01"/>
+                <path d="M8 16v-01"/>
+                <path d="M16 16v-01"/>
+              </svg>
+            </span>
+            <span data-i18n="chat.typing">typing...</span>
+            <span class="typing-dots">
+              <span></span><span></span><span></span>
+            </span>
+          </div>
+
+          <!-- File upload zone -->
+          <div id="file-drop-zone" class="file-drop-zone hidden">
+            <div class="file-drop-content">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 4 4 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p data-i18n="upload.dropFiles">Drop files here or click to upload</p>
+              <p class="file-drop-hint" data-i18n="upload.supportedFormats">Supported: Images, documents, code</p>
+            </div>
+            <input type="file" id="file-input" class="hidden" multiple accept="image/*,.pdf,.txt,.md,.js,.ts,.py,.json,.csv">
+            <button id="file-drop-close" class="file-drop-close">&times;</button>
+          </div>
+
+          <main id="messages" class="messages">
+            <div class="welcome-message">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <p data-i18n="chat.welcome" data-i18n-vars='{"name": "NanoClaw"}'>Connected to <strong>NanoClaw</strong></p>
+              <p data-i18n="chat.welcomeSubtitle">Send a message to start the conversation.</p>
+              <div class="welcome-shortcuts">
+                <p class="shortcuts-hint" data-i18n="shortcuts.hint">
+                  <kbd>Ctrl+K</kbd> Search ·
+                  <kbd>Ctrl+U</kbd> Upload ·
+                  <kbd>Ctrl+T</kbd> Theme
+                </p>
+              </div>
+            </div>
+          </main>
+
+          <footer class="input-area">
+            <!-- File attachment button -->
+            <button id="attach-btn" class="attach-btn icon-btn" data-i18n-title="upload.attachFile">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l-9.19-9.19a6 6 0 0 1 8.49-8.49l9.19 9.19a6 6 0 0 1 0 8.49l-9.19 9.19c-.39.39-1.02.39-1.41 0"/>
+                <path d="M16.5 12a1 1 0 0 1-1 1v-6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1"/>
+              </svg>
+            </button>
+
+            <form id="message-form">
+              <input
+                type="text"
+                id="message-input"
+                data-i18n-placeholder="chat.placeholder"
+                placeholder="Type a message... (Shift+Enter for new line)"
+                autocomplete="off"
+                disabled
+              >
+              <button type="submit" id="send-btn" disabled data-i18n-title="chat.send">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+              </button>
+            </form>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div id="stats-modal" class="modal hidden">
+      <div class="modal-overlay" id="stats-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 data-i18n="stats.title">Statistics</h2>
+          <button id="stats-close" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body" id="stats-body">
+          <!-- Stats populated by JS -->
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- i18n translations -->
+  <script id="i18n-data" type="application/json"></script>
+
+  <!-- Highlight.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

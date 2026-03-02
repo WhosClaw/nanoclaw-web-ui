@@ -1,0 +1,111 @@
+{
+  "appName": "NanoClaw",
+  "auth": {
+    "title": "NanoClaw",
+    "subtitle": "网页聊天界面",
+    "tokenLabel": "认证令牌（如果需要）",
+    "tokenPlaceholder": "请输入认证令牌...",
+    "connectBtn": "连接",
+    "connecting": "连接中...",
+    "invalidToken": "令牌无效"
+  },
+  "chat": {
+    "welcome": "已连接到 {{name}}",
+    "welcomeSubtitle": "发送消息开始对话。",
+    "placeholder": "输入消息... (Shift+Enter 换行)",
+    "send": "发送",
+    "sessions": "会话",
+    "newChat": "新建聊天",
+    "export": "导出",
+    "clear": "清空",
+    "typing": "正在输入...",
+    "online": "在线",
+    "offline": "离线",
+    "reconnecting": "重新连接中...",
+    "connectionFailed": "连接失败",
+    "connectionError": "连接错误"
+  },
+  "session": {
+    "newChat": "新聊天 {{number}}",
+    "rename": "重命名会话",
+    "delete": "删除会话",
+    "cannotDeleteLast": "无法删除最后一个会话",
+    "deleted": "会话已删除",
+    "cleared": "消息已清空"
+  },
+  "messages": {
+    "copy": "复制",
+    "edit": "编辑",
+    "delete": "删除",
+    "resend": "重新发送",
+    "copied": "已复制到剪贴板！",
+    "deleted": "消息已删除",
+    "confirmDelete": "删除这条消息？",
+    "confirmClear": "清空此会话的所有消息？",
+    "noMessages": "没有消息可导出",
+    "exported": "聊天记录已导出！"
+  },
+  "status": {
+    "sending": "发送中...",
+    "sent": "已发送",
+    "delivered": "已送达",
+    "read": "已读",
+    "failed": "发送失败"
+  },
+  "errors": {
+    "notAuthenticated": "未认证",
+    "invalidContent": "内容无效",
+    "unknownMessageType": "未知消息类型",
+    "connectionLost": "连接丢失。请刷新页面重新连接。",
+    "serverNotRunning": "连接错误。请检查服务器是否运行。"
+  },
+  "latency": {
+    "excellent": "极佳",
+    "good": "良好",
+    "fair": "一般",
+    "poor": "较差"
+  },
+  "search": {
+    "toggle": "搜索消息 (Ctrl+K)",
+    "placeholder": "搜索消息...",
+    "noResults": "未找到消息",
+    "results": "{{count}} 条结果",
+    "navigate": "使用 ↑↓ 导航，回车跳转"
+  },
+  "upload": {
+    "attachFile": "附件 (Ctrl+U)",
+    "dropFiles": "拖放文件到此处或点击上传",
+    "supportedFormats": "支持：图片、文档、代码",
+    "uploading": "上传中...",
+    "success": "文件已上传！",
+    "error": "上传失败：{{error}}",
+    "tooLarge": "文件过大（最大10MB）",
+    "invalidType": "无效的文件类型"
+  },
+  "theme": {
+    "toggle": "切换主题 (Ctrl+T)",
+    "dark": "深色主题",
+    "light": "浅色主题",
+    "system": "系统主题"
+  },
+  "stats": {
+    "title": "使用统计",
+    "button": "统计",
+    "totalMessages": "总消息数",
+    "userMessages": "您的消息",
+    "assistantMessages": "助手消息",
+    "totalSessions": "总会话数",
+    "activeSession": "当前会话",
+    "activityChart": "消息活跃度（最近7天）",
+    "avgResponseTime": "平均响应时间",
+    "noData": "暂无数据"
+  },
+  "shortcuts": {
+    "hint": "键盘快捷键",
+    "search": "搜索消息",
+    "upload": "上传文件",
+    "theme": "切换主题",
+    "newChat": "新建聊天",
+    "clearChat": "清空聊天"
+  }
+}

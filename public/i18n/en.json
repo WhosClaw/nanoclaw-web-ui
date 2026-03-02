@@ -1,0 +1,111 @@
+{
+  "appName": "NanoClaw",
+  "auth": {
+    "title": "NanoClaw",
+    "subtitle": "Web Chat Interface",
+    "tokenLabel": "Auth Token (if required)",
+    "tokenPlaceholder": "Enter auth token...",
+    "connectBtn": "Connect",
+    "connecting": "Connecting...",
+    "invalidToken": "Invalid token"
+  },
+  "chat": {
+    "welcome": "Connected to {{name}}",
+    "welcomeSubtitle": "Send a message to start the conversation.",
+    "placeholder": "Type a message... (Shift+Enter for new line)",
+    "send": "Send",
+    "sessions": "Sessions",
+    "newChat": "New Chat",
+    "export": "Export",
+    "clear": "Clear",
+    "typing": "typing...",
+    "online": "Online",
+    "offline": "Offline",
+    "reconnecting": "Reconnecting...",
+    "connectionFailed": "Connection failed",
+    "connectionError": "Connection error"
+  },
+  "session": {
+    "newChat": "New Chat {{number}}",
+    "rename": "Rename session",
+    "delete": "Delete session",
+    "cannotDeleteLast": "Cannot delete the last session",
+    "deleted": "Session deleted",
+    "cleared": "Messages cleared"
+  },
+  "messages": {
+    "copy": "Copy",
+    "edit": "Edit",
+    "delete": "Delete",
+    "resend": "Resend",
+    "copied": "Copied to clipboard!",
+    "deleted": "Message deleted",
+    "confirmDelete": "Delete this message?",
+    "confirmClear": "Clear all messages in this session?",
+    "noMessages": "No messages to export",
+    "exported": "Chat exported!"
+  },
+  "status": {
+    "sending": "Sending...",
+    "sent": "Sent",
+    "delivered": "Delivered",
+    "read": "Read",
+    "failed": "Failed"
+  },
+  "errors": {
+    "notAuthenticated": "Not authenticated",
+    "invalidContent": "Invalid content",
+    "unknownMessageType": "Unknown message type",
+    "connectionLost": "Connection lost. Please refresh to reconnect.",
+    "serverNotRunning": "Connection error. Please check if the server is running."
+  },
+  "latency": {
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor"
+  },
+  "search": {
+    "toggle": "Search messages (Ctrl+K)",
+    "placeholder": "Search messages...",
+    "noResults": "No messages found",
+    "results": "{{count}} result(s)",
+    "navigate": "Use ↑↓ to navigate, Enter to jump"
+  },
+  "upload": {
+    "attachFile": "Attach file (Ctrl+U)",
+    "dropFiles": "Drop files here or click to upload",
+    "supportedFormats": "Supported: Images, documents, code",
+    "uploading": "Uploading...",
+    "success": "File uploaded!",
+    "error": "Upload failed: {{error}}",
+    "tooLarge": "File too large (max 10MB)",
+    "invalidType": "Invalid file type"
+  },
+  "theme": {
+    "toggle": "Toggle theme (Ctrl+T)",
+    "dark": "Dark theme",
+    "light": "Light theme",
+    "system": "System theme"
+  },
+  "stats": {
+    "title": "Statistics",
+    "button": "Statistics",
+    "totalMessages": "Total Messages",
+    "userMessages": "Your Messages",
+    "assistantMessages": "Assistant Messages",
+    "totalSessions": "Total Sessions",
+    "activeSession": "Active Session",
+    "activityChart": "Message Activity (Last 7 Days)",
+    "avgResponseTime": "Avg Response Time",
+    "noData": "No data yet"
+  },
+  "shortcuts": {
+    "hint": "Keyboard Shortcuts",
+    "search": "Search messages",
+    "upload": "Upload file",
+    "theme": "Toggle theme",
+    "newChat": "New chat",
+    "clearChat": "Clear chat"
+  }
+}
