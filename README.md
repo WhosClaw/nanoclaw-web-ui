@@ -17,6 +17,15 @@ A modern, responsive web-based chat interface for AI assistants. Built with Expr
 - 📎 **File Upload** - Drag and drop file support
 - 📊 **Usage Statistics** - Track message activity
 
+## Compatibility
+
+| Web UI Version | NanoClaw Version | Status |
+|----------------|------------------|--------|
+| v1.2.x | v1.2.1+ | ✅ Compatible |
+| v1.1.x | v1.1.x | ✅ Compatible |
+
+> **Note:** Web UI v1.2.x requires NanoClaw v1.2.1 or later for the new channel registry system.
+
 ## Quick Start
 
 ### Installation
@@ -156,6 +165,7 @@ services:
 
 ## Documentation
 
+- **[中文文档](README_zh-hans.md)** - Chinese README
 - **[Contributing Guide](CONTRIBUTING.md)** - Development setup and contribution guidelines
 - **[NanoClaw Project](https://github.com/qwibitai/nanoclaw)** - Core AI assistant framework
 

@@ -428,6 +428,7 @@ button:disabled {
 
 .message.user .message-bubble {
   background: var(--bg-message-user);
+  color: white;
   border-bottom-right-radius: 4px;
 }
 
@@ -999,6 +1000,18 @@ button:disabled {
 .header-icon-btn svg {
   width: 18px;
   height: 18px;
+}
+
+/* Attachment button - smaller and simpler */
+.attach-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.attach-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* ==================== Enhanced Chat Container ==================== */
