@@ -23,7 +23,8 @@
     "offline": "离线",
     "reconnecting": "重新连接中...",
     "connectionFailed": "连接失败",
-    "connectionError": "连接错误"
+    "connectionError": "连接错误",
+    "webInterface": "网页界面"
   },
   "session": {
     "newChat": "新聊天 {{number}}",
@@ -64,6 +65,15 @@
     "good": "良好",
     "fair": "一般",
     "poor": "较差"
+  },
+  "service": {
+    "info": "服务信息",
+    "status": "状态：",
+    "version": "版本：",
+    "endpoint": "端点：",
+    "checking": "检查中...",
+    "online": "在线",
+    "offline": "离线"
   },
   "search": {
     "toggle": "搜索消息 (Ctrl+K)",
@@ -107,5 +117,15 @@
     "theme": "切换主题",
     "newChat": "新建聊天",
     "clearChat": "清空聊天"
+  },
+  "settings": {
+    "title": "设置",
+    "button": "设置",
+    "language": "语言",
+    "theme": "主题",
+    "info": "信息",
+    "version": "版本",
+    "assistant": "助手",
+    "github": "打开 GitHub 仓库"
   }
 }

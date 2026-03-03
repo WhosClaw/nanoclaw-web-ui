@@ -1,6 +1,6 @@
 # NanoClaw Web UI
 
-A modern, responsive web-based chat interface for AI assistants. Built with Express, WebSocket, and vanilla JavaScript - no frameworks required.
+A modern, responsive web-based chat interface for AI assistants. Built with Express, WebSocket, and vanilla JavaScript.
 
 ![Web UI Preview](docs/screenshot.png)
 
@@ -9,11 +9,13 @@ A modern, responsive web-based chat interface for AI assistants. Built with Expr
 - 🌐 **Real-time Communication** - WebSocket-based instant messaging
 - 🔐 **Optional Authentication** - Token-based access control
 - 📱 **Mobile Responsive** - Works seamlessly on desktop and mobile
-- 🎨 **Dark Theme** - Easy on the eyes, modern design
+- 🎨 **Dark/Light Theme** - Easy on the eyes, modern design
 - 💬 **Markdown Support** - Rich text formatting for bot responses
 - 🔄 **Auto-Reconnect** - Automatically reconnects on connection loss
-- 📦 **Standalone** - Easy integration with any backend
-- 🚀 **Lightweight** - No heavy frameworks, pure vanilla JS
+- 🌍 **i18n Support** - English and Chinese languages
+- 🔍 **Search Messages** - Quick message search (Ctrl+K)
+- 📎 **File Upload** - Drag and drop file support
+- 📊 **Usage Statistics** - Track message activity
 
 ## Quick Start
 
@@ -53,7 +55,6 @@ const server = new WebUIServer({
   port: 3000,
   authToken: process.env.SECRET_TOKEN,
   onAuthenticate: (sessionId) => {
-    // Custom authentication logic
     return true; // or check against your user database
   },
 });
@@ -76,7 +77,6 @@ const server = new WebUIServer({
 WEB_UI_PORT=3000           # Port to listen on
 WEB_UI_AUTH_TOKEN=secret   # Optional auth token
 ASSISTANT_NAME=MyBot       # Bot name
-STATIC_PATH=./public       # Custom static file path
 ```
 
 ## API Endpoints
@@ -84,40 +84,11 @@ STATIC_PATH=./public       # Custom static file path
 ### GET `/api/health`
 Health check endpoint.
 
-**Response:**
-```json
-{
-  "status": "ok",
-  "assistant": "NanoClaw",
-  "timestamp": "2024-03-02T10:00:00.000Z"
-}
-```
-
-### GET `/api/session?session=xxx`
-Get session info.
-
 ### POST `/api/broadcast`
 Send message to all connected sessions.
 
-**Body:**
-```json
-{
-  "from": "assistant",
-  "content": "Hello everyone!"
-}
-```
-
 ### POST `/api/send`
 Send message to specific session.
-
-**Body:**
-```json
-{
-  "sessionId": "web_xxx",
-  "from": "assistant",
-  "content": "Hello!"
-}
-```
 
 ## WebSocket Protocol
 
@@ -139,13 +110,6 @@ Send message to specific session.
 }
 ```
 
-**Ping:**
-```json
-{
-  "type": "ping"
-}
-```
-
 ### Server → Client
 
 **Connected:**
@@ -154,15 +118,6 @@ Send message to specific session.
   "type": "connected",
   "sessionId": "web_1234567890_abc123",
   "assistant": "NanoClaw"
-}
-```
-
-**Auth Response:**
-```json
-{
-  "type": "auth",
-  "success": true,
-  "sessionId": "web_1234567890_abc123"
 }
 ```
 
@@ -176,116 +131,13 @@ Send message to specific session.
 }
 ```
 
-**Error:**
-```json
-{
-  "type": "error",
-  "message": "Error description"
-}
-```
-
-## Development
-
-```bash
-# Clone repository
-git clone https://github.com/your-username/nanoclaw-web-ui.git
-cd nanoclaw-web-ui
-
-# Install dependencies
-npm install
-
-# Run in development mode
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
-## Integration Examples
-
-### Express Integration
-
-```javascript
-import express from 'express';
-import WebUIServer from 'nanoclaw-web-ui';
-
-const app = express();
-const webUI = new WebUIServer({ port: 3000 });
-
-// Use webUI alongside your existing API
-app.get('/api/custom', (req, res) => {
-  res.json({ data: 'custom endpoint' });
-});
-
-// Send messages from your API
-app.post('/api/notify', (req, res) => {
-  webUI.broadcast('system', req.body.message);
-  res.json({ sent: true });
-});
-
-await webUI.start();
-```
-
-### NanoClaw Integration
-
-```javascript
-import WebUIServer from 'nanoclaw-web-ui';
-
-const webUI = new WebUIServer({
-  onMessage: async (msg) => {
-    // Forward to NanoClaw agent
-    const response = await runAgent(msg.content);
-    webUI.sendToSession(msg.chatJid.replace('web:', ''), {
-      type: 'message',
-      from: 'assistant',
-      content: response,
-      timestamp: new Date().toISOString(),
-    });
-  },
-});
-```
-
-## Customization
-
-### Styling
-
-Edit `public/css/styles.css` to customize the appearance. The UI uses CSS variables for easy theming:
-
-```css
-:root {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --bg-message-user: #2563eb;
-  --bg-message-assistant: #2a2a2a;
-  --text-primary: #ffffff;
-  /* ... more variables */
-}
-```
-
-### Frontend Logic
-
-Edit `public/js/app.js` to add custom features like:
-- File uploads
-- Voice messages
-- Custom commands
-- Session persistence
-
 ## Deployment
 
 ### Docker
 
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
+```bash
+docker build -t nanoclaw-web-ui .
+docker run -p 3000:3000 -e WEB_UI_AUTH_TOKEN=your-secret nanoclaw-web-ui
 ```
 
 ### Docker Compose
@@ -299,40 +151,20 @@ services:
       - "3000:3000"
     environment:
       - WEB_UI_AUTH_TOKEN=your-secret-token
-      - ASSISTANT_NAME=MyBot
     restart: unless-stopped
 ```
 
-### Reverse Proxy (Nginx)
+## Documentation
 
-```nginx
-location / {
-    proxy_pass http://localhost:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host $host;
-}
-```
+- **[Contributing Guide](CONTRIBUTING.md)** - Development setup and contribution guidelines
+- **[NanoClaw Project](https://github.com/qwibitai/nanoclaw)** - Core AI assistant framework
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
-## Contributing
+## Links
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Support
-
-- 📧 Email: support@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/nanoclaw-web-ui/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/nanoclaw-web-ui/discussions)
-
-## Acknowledgments
-
-Built as a modular component for [NanoClaw](https://github.com/anthropics/nanoclaw) - a lightweight AI assistant framework.
-
----
-
-Made with ❤️ for the open-source community
+- **Repository:** [https://github.com/WhosClaw/nanoclaw-web-ui](https://github.com/WhosClaw/nanoclaw-web-ui)
+- **Issues:** [GitHub Issues](https://github.com/WhosClaw/nanoclaw-web-ui/issues)
+- **NanoClaw:** [https://github.com/qwibitai/nanoclaw](https://github.com/qwibitai/nanoclaw)

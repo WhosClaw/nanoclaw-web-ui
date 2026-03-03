@@ -12,6 +12,24 @@
   <div id="app">
     <!-- Auth Screen -->
     <div id="auth-screen" class="screen">
+      <!-- Auth Screen Logo -->
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3 L15 7 L20 6 L18 11 L22 14 L17 16 L18 21 L12 18 L6 21 L7 16 L2 14 L6 11 L4 6 L9 7 Z" fill="currentColor" fill-opacity="0.2"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+            <circle cx="12" cy="3" r="1"/>
+            <circle cx="20" cy="6" r="1"/>
+            <circle cx="22" cy="14" r="1"/>
+            <circle cx="18" cy="21" r="1"/>
+            <circle cx="6" cy="21" r="1"/>
+            <circle cx="2" cy="14" r="1"/>
+            <circle cx="4" cy="6" r="1"/>
+          </svg>
+        </div>
+        <span class="auth-logo-name" data-i18n="appName">NanoClaw</span>
+      </div>
+
       <div class="auth-container">
         <!-- Language & Theme Selector -->
         <div class="auth-options">
@@ -23,6 +41,36 @@
 
         <h1 data-i18n="auth.title">NanoClaw</h1>
         <p data-i18n="auth.subtitle">Web Chat Interface</p>
+
+        <!-- Service Info -->
+        <div class="service-info" id="service-info">
+          <div class="service-info-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span data-i18n="service.info">Service Information</span>
+          </div>
+          <div class="service-info-content" id="service-info-content">
+            <div class="service-info-item">
+              <span class="service-info-label" data-i18n="service.status">Status:</span>
+              <span class="service-info-value status-checking">
+                <span class="status-dot-small"></span>
+                <span data-i18n="service.checking">Checking...</span>
+              </span>
+            </div>
+            <div class="service-info-item">
+              <span class="service-info-label" data-i18n="service.version">Version:</span>
+              <span class="service-info-value" id="service-version">-</span>
+            </div>
+            <div class="service-info-item">
+              <span class="service-info-label" data-i18n="service.endpoint">Endpoint:</span>
+              <span class="service-info-value" id="service-endpoint">-</span>
+            </div>
+          </div>
+        </div>
+
         <form id="auth-form">
           <div id="token-input-container">
             <label for="auth-token" data-i18n="auth.tokenLabel">Auth Token (if required)</label>
@@ -45,18 +93,42 @@
       <div class="chat-layout">
         <!-- Session Sidebar -->
         <aside id="session-sidebar" class="session-sidebar">
-          <div class="sidebar-header">
+          <!-- Sidebar Logo Section -->
+          <div class="sidebar-logo-section">
+            <div class="sidebar-logo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 3 L15 7 L20 6 L18 11 L22 14 L17 16 L18 21 L12 18 L6 21 L7 16 L2 14 L6 11 L4 6 L9 7 Z" fill="currentColor" fill-opacity="0.2"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <circle cx="12" cy="3" r="1"/>
+                <circle cx="20" cy="6" r="1"/>
+                <circle cx="22" cy="14" r="1"/>
+                <circle cx="18" cy="21" r="1"/>
+                <circle cx="6" cy="21" r="1"/>
+                <circle cx="2" cy="14" r="1"/>
+                <circle cx="4" cy="6" r="1"/>
+              </svg>
+            </div>
+            <div class="sidebar-title">
+              <span class="sidebar-app-name" data-i18n="appName">NanoClaw</span>
+              <span class="sidebar-subtitle" data-i18n="chat.webInterface">Web Interface</span>
+            </div>
+          </div>
+
+          <!-- Sessions Header -->
+          <div class="sidebar-sessions-header">
             <h2 data-i18n="chat.sessions">Sessions</h2>
             <button id="new-chat-btn" class="icon-btn" data-i18n-title="chat.newChat">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v14M5 12h14"/>
               </svg>
             </button>
           </div>
+
           <div id="session-list" class="session-list">
             <!-- Sessions populated by JS -->
           </div>
-          <!-- Sidebar footer with stats -->
+
+          <!-- Sidebar Footer -->
           <div class="sidebar-footer">
             <button id="stats-btn" class="sidebar-action-btn" data-i18n-title="stats.title">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -68,6 +140,22 @@
               </svg>
               <span data-i18n="stats.button">Statistics</span>
             </button>
+            <button id="settings-btn" class="sidebar-action-btn" data-i18n-title="settings.title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6"></path>
+                <path d="M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24"></path>
+                <path d="M1 12h6m6 0h6"></path>
+                <path d="M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"></path>
+              </svg>
+              <span data-i18n="settings.button">Settings</span>
+            </button>
+            <a href="https://github.com/WhosClaw/nanoclaw-web-ui" target="_blank" rel="noopener" class="sidebar-action-btn github-link" data-i18n-title="settings.github">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.746.162-1.387.108-1.387.108-.814.548-1.387 1.089-1.387 1.089-.726 1.089-.548 1.089-1.089.814 0 1.635.548 1.635 1.089 0 .814-.548 1.635-1.089 1.089-1.089.548-1.635 1.089-1.635.272 0 .548.108.814.108.546 1.089 1.635 1.089 1.089-.548 1.635-1.089 1.089zm8.016-10.936c-1.089 0-1.635-.548-1.635-1.089 0-.548.546-1.089 1.635-1.089.546 0 1.089.548 1.089 1.089 0 .548-.546 1.089-1.089 1.089zm3.262 6.87c-.546 1.635-3.262 1.635-3.262 1.635-.546 0-1.089-.548-1.089-1.089 0-.548.546-1.089 1.089-1.089.546 0 1.089.548 1.089 1.089 0 .546-.546 1.089-1.089 1.089zm-3.262 8.013c-1.089 0-1.635-.548-1.635-1.089 0-.546.546-1.089 1.635-1.089.546 0 1.089.548 1.089 1.089 0 .546-.546 1.089-1.089 1.089zm7.555-4.915c-.812 0-1.635-.548-1.635-1.356 0-.816.823-1.356 1.635-1.356.814 0 1.635.548 1.635 1.356 0 .816-.823 1.356-1.635 1.356zm2.178-7.555c-1.089 0-1.635-.548-1.635-1.357 0-.813.546-1.356 1.635-1.356.814 0 1.635.548 1.635 1.356 0 .814-.546 1.357-1.635 1.357z"/>
+              </svg>
+              <span data-i18n="settings.github">GitHub</span>
+            </a>
           </div>
         </aside>
 
@@ -105,6 +193,7 @@
                   <path d="M3 12h18M3 6h18M3 18h18"/>
                 </svg>
               </button>
+
               <h1 data-i18n="appName">NanoClaw</h1>
 
               <!-- Enhanced connection status -->
@@ -246,6 +335,122 @@
         </div>
         <div class="modal-body" id="stats-body">
           <!-- Stats populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+      <div class="modal-overlay" id="settings-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 data-i18n="settings.title">Settings</h2>
+          <button id="settings-close" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body settings-body">
+          <!-- Language Setting -->
+          <div class="setting-group">
+            <div class="setting-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path>
+              </svg>
+              <h3 data-i18n="settings.language">Language</h3>
+            </div>
+            <div class="setting-options">
+              <button class="setting-option lang-option active" data-lang="en">
+                <span class="lang-flag">🇺🇸</span>
+                <span class="lang-name">English</span>
+                <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+              <button class="setting-option lang-option" data-lang="zh-CN">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">简体中文</span>
+                <svg class="check-icon hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Theme Setting -->
+          <div class="setting-group">
+            <div class="setting-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m0-12.84l1.42-1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 18.36l1.42-1.42"></path>
+              </svg>
+              <h3 data-i18n="settings.theme">Theme</h3>
+            </div>
+            <div class="setting-options">
+              <button class="setting-option theme-option active" data-theme="dark">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <span data-i18n="theme.dark">Dark</span>
+                <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+              <button class="setting-option theme-option" data-theme="light">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <span data-i18n="theme.light">Light</span>
+                <svg class="check-icon hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Info Section -->
+          <div class="setting-group">
+            <div class="setting-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <h3 data-i18n="settings.info">Information</h3>
+            </div>
+            <div class="setting-info">
+              <div class="info-item">
+                <span class="info-label" data-i18n="settings.version">Version</span>
+                <span class="info-value">1.1.0</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label" data-i18n="settings.assistant">Assistant</span>
+                <span class="info-value" id="settings-assistant-name">NanoClaw</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- GitHub Link -->
+          <div class="setting-group setting-github">
+            <a href="https://github.com/WhosClaw/nanoclaw-web-ui" target="_blank" rel="noopener" class="github-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.746.162-1.387.108-1.387.108-.814.548-1.387 1.089-1.387 1.089-.726 1.089-.548 1.089-1.089.814 0 1.635.548 1.635 1.089 0 .814-.548 1.635-1.089 1.089-1.089.548-1.635 1.089-1.635.272 0 .548.108.814.108.546 1.089 1.635 1.089 1.089-.548 1.635-1.089 1.089zm8.016-10.936c-1.089 0-1.635-.548-1.635-1.089 0-.548.546-1.089 1.635-1.089.546 0 1.089.548 1.089 1.089 0 .548-.546 1.089-1.089 1.089zm3.262 6.87c-.546 1.635-3.262 1.635-3.262 1.635-.546 0-1.089-.548-1.089-1.089 0-.548.546-1.089 1.089-1.089.546 0 1.089.548 1.089 1.089 0 .546-.546 1.089-1.089 1.089zm-3.262 8.013c-1.089 0-1.635-.548-1.635-1.089 0-.546.546-1.089 1.635-1.089.546 0 1.089.548 1.089 1.089 0 .546-.546 1.089-1.089 1.089zm7.555-4.915c-.812 0-1.635-.548-1.635-1.356 0-.816.823-1.356 1.635-1.356.814 0 1.635.548 1.635 1.356 0 .816-.823 1.356-1.635 1.356zm2.178-7.555c-1.089 0-1.635-.548-1.635-1.357 0-.813.546-1.356 1.635-1.356.814 0 1.635.548 1.635 1.356 0 .814-.546 1.357-1.635 1.357z"/>
+              </svg>
+              <span>GitHub</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 9 11 9"></polyline>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>

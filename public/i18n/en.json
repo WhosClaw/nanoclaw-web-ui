@@ -23,7 +23,8 @@
     "offline": "Offline",
     "reconnecting": "Reconnecting...",
     "connectionFailed": "Connection failed",
-    "connectionError": "Connection error"
+    "connectionError": "Connection error",
+    "webInterface": "Web Interface"
   },
   "session": {
     "newChat": "New Chat {{number}}",
@@ -64,6 +65,15 @@
     "good": "Good",
     "fair": "Fair",
     "poor": "Poor"
+  },
+  "service": {
+    "info": "Service Information",
+    "status": "Status:",
+    "version": "Version:",
+    "endpoint": "Endpoint:",
+    "checking": "Checking...",
+    "online": "Online",
+    "offline": "Offline"
   },
   "search": {
     "toggle": "Search messages (Ctrl+K)",
@@ -107,5 +117,15 @@
     "theme": "Toggle theme",
     "newChat": "New chat",
     "clearChat": "Clear chat"
+  },
+  "settings": {
+    "title": "Settings",
+    "button": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "info": "Information",
+    "version": "Version",
+    "assistant": "Assistant",
+    "github": "Open GitHub repository"
   }
 }

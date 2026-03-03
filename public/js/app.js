@@ -265,7 +265,6 @@ const statusDot = document.getElementById('status-dot');
 const statusText = document.getElementById('status-text');
 const statusDetail = document.getElementById('status-detail');
 const connectionQuality = document.getElementById('connection-quality');
-const assistantNameEl = document.getElementById('assistant-name');
 const messagesContainer = document.getElementById('messages');
 const messageForm = document.getElementById('message-form');
 const messageInput = document.getElementById('message-input');
@@ -293,6 +292,10 @@ const statsModal = document.getElementById('stats-modal');
 const statsOverlay = document.getElementById('stats-overlay');
 const statsClose = document.getElementById('stats-close');
 const statsBody = document.getElementById('stats-body');
+const settingsBtn = document.getElementById('settings-btn');
+const settingsModal = document.getElementById('settings-modal');
+const settingsOverlay = document.getElementById('settings-overlay');
+const settingsClose = document.getElementById('settings-close');
 
 // Search state
 let searchResultsList = [];
@@ -1565,6 +1568,89 @@ const Statistics = {
   }
 };
 
+// ==================== Settings ====================
+
+const Settings = {
+  init() {
+    settingsBtn?.addEventListener('click', () => this.show());
+    settingsOverlay?.addEventListener('click', () => this.close());
+    settingsClose?.addEventListener('click', () => this.close());
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !settingsModal.classList.contains('hidden')) {
+        this.close();
+      }
+    });
+
+    // Language options
+    document.querySelectorAll('.lang-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        this.setLanguage(lang);
+      });
+    });
+
+    // Theme options
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        Theme.set(theme);
+        this.updateThemeOptions(theme);
+      });
+    });
+  },
+
+  show() {
+    // Update current values
+    this.updateLanguageOptions(i18n.currentLang);
+    this.updateThemeOptions(Theme.get());
+    this.updateInfo();
+    settingsModal.classList.remove('hidden');
+  },
+
+  close() {
+    settingsModal.classList.add('hidden');
+  },
+
+  updateLanguageOptions(currentLang) {
+    document.querySelectorAll('.lang-option').forEach(btn => {
+      const isActive = btn.dataset.lang === currentLang;
+      btn.classList.toggle('active', isActive);
+      const checkIcon = btn.querySelector('.check-icon');
+      if (checkIcon) {
+        checkIcon.classList.toggle('hidden', !isActive);
+      }
+    });
+  },
+
+  updateThemeOptions(currentTheme) {
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      const isActive = btn.dataset.theme === currentTheme;
+      btn.classList.toggle('active', isActive);
+      const checkIcon = btn.querySelector('.check-icon');
+      if (checkIcon) {
+        checkIcon.classList.toggle('hidden', !isActive);
+      }
+    });
+  },
+
+  async setLanguage(lang) {
+    await i18n.setLanguage(lang);
+    this.updateLanguageOptions(lang);
+    // Update the info section which may have changed
+    this.updateInfo();
+  },
+
+  updateInfo() {
+    // Update assistant name
+    const assistantNameEl = document.getElementById('settings-assistant-name');
+    if (assistantNameEl) {
+      assistantNameEl.textContent = assistantName;
+    }
+  }
+};
+
 // ==================== Initialize ====================
 
 async function init() {
@@ -1575,6 +1661,9 @@ async function init() {
 
   // Initialize theme
   Theme.init();
+
+  // Check service info
+  checkServiceInfo();
 
   // Check for stored auth token
   const hasStoredToken = localStorage.getItem('nanoclaw_auth_token');
@@ -1619,6 +1708,7 @@ async function init() {
   Search.init();
   FileUpload.init();
   Statistics.init();
+  Settings.init();
 
   // Close sidebar when clicking outside on mobile
   document.addEventListener('click', (e) => {
@@ -1733,7 +1823,6 @@ function handleWsMessage(data) {
     case 'connected':
       sessionId = data.sessionId;
       assistantName = data.assistant || 'NanoClaw';
-      assistantNameEl.textContent = assistantName;
       authenticate();
       break;
 
@@ -2018,6 +2107,52 @@ function removeWelcomeMessage() {
 
 function scrollToBottom() {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// ==================== Service Info ====================
+
+async function checkServiceInfo() {
+  const statusEl = document.querySelector('#service-info-content .service-info-value');
+  const versionEl = document.getElementById('service-version');
+  const endpointEl = document.getElementById('service-endpoint');
+
+  // Display endpoint
+  const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
+  endpointEl.textContent = window.location.host;
+
+  try {
+    // Check health endpoint
+    const response = await fetch('/api/health');
+    if (response.ok) {
+      const data = await response.json();
+      versionEl.textContent = data.version || '1.0.0';
+
+      // Update status to online
+      if (statusEl) {
+        statusEl.classList.remove('status-checking', 'status-offline');
+        statusEl.classList.add('status-online');
+        statusEl.innerHTML = `
+          <span class="status-dot-small"></span>
+          <span>${i18n.t('service.online')}</span>
+        `;
+      }
+    } else {
+      throw new Error('Health check failed');
+    }
+  } catch (error) {
+    console.warn('Service health check failed:', error);
+    versionEl.textContent = '-';
+
+    // Update status to offline but allow connection
+    if (statusEl) {
+      statusEl.classList.remove('status-checking', 'status-online');
+      statusEl.classList.add('status-offline');
+      statusEl.innerHTML = `
+        <span class="status-dot-small"></span>
+        <span>${i18n.t('service.offline')}</span>
+      `;
+    }
+  }
 }
 
 // ==================== Keep-alive with latency tracking ====================
