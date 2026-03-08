@@ -21,7 +21,7 @@ A modern, responsive web-based chat interface for AI assistants. Built with Expr
 
 | Web UI Version | NanoClaw Version | Status |
 |----------------|------------------|--------|
-| v1.2.x | v1.2.1+ | ✅ Compatible |
+| v1.2.x | v1.2.x | ✅ Compatible |
 | v1.1.x | v1.1.x | ✅ Compatible |
 
 > **Note:** Web UI v1.2.x requires NanoClaw v1.2.1 or later for the new channel registry system.
