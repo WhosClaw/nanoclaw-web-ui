@@ -79,6 +79,7 @@ const server = new WebUIServer({
 | 选项 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
 | `port` | number | `3000` | 监听端口 |
+| `host` | string | `"localhost"` | 绑定主机地址（默认：localhost，出于安全考虑） |
 | `authToken` | string | `undefined` | 可选的认证令牌 |
 | `assistantName` | string | `"NanoClaw"` | UI 中显示的机器人名称 |
 | `staticPath` | string | `"../public"` | 静态文件路径 |
@@ -89,9 +90,22 @@ const server = new WebUIServer({
 
 ```bash
 WEB_UI_PORT=3000           # 监听端口
+WEB_UI_HOST=localhost      # 绑定主机地址（默认：localhost - 仅本机可访问）
 WEB_UI_AUTH_TOKEN=secret   # 可选认证令牌
 ASSISTANT_NAME=我的机器人   # 机器人名称
 STATIC_PATH=./public       # 自定义静态文件路径
+```
+
+### 安全说明
+
+默认情况下，Web UI 绑定到 `localhost`，仅本机可访问。如需对外暴露：
+
+⚠️ **警告**：只有在确保已设置认证的情况下才绑定到 `0.0.0.0`！
+
+```bash
+# 允许外部访问（请谨慎使用！）
+WEB_UI_HOST=0.0.0.0
+WEB_UI_AUTH_TOKEN=your-strong-secret-token
 ```
 
 ## API 端点

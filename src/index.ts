@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename);
 // Configuration - can be overridden via environment variables
 const config = {
   PORT: parseInt(process.env.WEB_UI_PORT || '3000', 10),
+  // Default to localhost for security - only accessible from this machine
+  HOST: process.env.WEB_UI_HOST || 'localhost',
   AUTH_TOKEN: process.env.WEB_UI_AUTH_TOKEN || '',
   ASSISTANT_NAME: process.env.ASSISTANT_NAME || 'NanoClaw',
   STATIC_PATH: process.env.STATIC_PATH || path.join(__dirname, '../public'),
@@ -30,6 +32,7 @@ export interface WebMessageHandler {
 
 export interface WebServerOptions {
   port?: number;
+  host?: string;
   authToken?: string;
   assistantName?: string;
   staticPath?: string;
@@ -62,6 +65,7 @@ export class WebUIServer {
   constructor(options: WebServerOptions = {}) {
     this.config = {
       PORT: options.port ?? config.PORT,
+      HOST: options.host ?? config.HOST,
       AUTH_TOKEN: options.authToken ?? config.AUTH_TOKEN,
       ASSISTANT_NAME: options.assistantName ?? config.ASSISTANT_NAME,
       STATIC_PATH: options.staticPath ?? config.STATIC_PATH,
@@ -342,13 +346,13 @@ export class WebUIServer {
    */
   public async start(): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.server.listen(this.config.PORT, () => {
+      this.server.listen(this.config.PORT, this.config.HOST, () => {
         this.connected = true;
         logger.info(
-          { port: this.config.PORT, assistant: this.config.ASSISTANT_NAME },
+          { port: this.config.PORT, host: this.config.HOST, assistant: this.config.ASSISTANT_NAME },
           'Web UI server started',
         );
-        console.log(`\n  Web UI: http://localhost:${this.config.PORT}`);
+        console.log(`\n  Web UI: http://${this.config.HOST}:${this.config.PORT}`);
         if (this.config.AUTH_TOKEN) {
           console.log(`  Auth token: ${this.config.AUTH_TOKEN}`);
         }

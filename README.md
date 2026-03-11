@@ -74,6 +74,7 @@ const server = new WebUIServer({
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `port` | number | `3000` | Port to listen on |
+| `host` | string | `"localhost"` | Host to bind to (default: localhost for security) |
 | `authToken` | string | `undefined` | Optional auth token |
 | `assistantName` | string | `"NanoClaw"` | Bot name displayed in UI |
 | `staticPath` | string | `"../public"` | Path to static files |
@@ -84,8 +85,21 @@ const server = new WebUIServer({
 
 ```bash
 WEB_UI_PORT=3000           # Port to listen on
+WEB_UI_HOST=localhost      # Host to bind to (default: localhost - only accessible from this machine)
 WEB_UI_AUTH_TOKEN=secret   # Optional auth token
 ASSISTANT_NAME=MyBot       # Bot name
+```
+
+### Security Note
+
+By default, the Web UI binds to `localhost` and is only accessible from the machine it's running on. To expose it externally:
+
+⚠️ **Warning**: Only bind to `0.0.0.0` if you have proper authentication in place!
+
+```bash
+# Allow external access (use with caution!)
+WEB_UI_HOST=0.0.0.0
+WEB_UI_AUTH_TOKEN=your-strong-secret-token
 ```
 
 ## API Endpoints
