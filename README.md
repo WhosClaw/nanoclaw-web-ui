@@ -159,23 +159,42 @@ Send message to specific session.
 ### Docker
 
 ```bash
+# Build the image
 docker build -t nanoclaw-web-ui .
-docker run -p 3000:3000 -e WEB_UI_AUTH_TOKEN=your-secret nanoclaw-web-ui
+
+# Run without authentication
+docker run -p 3000:3000 \
+  -e WEB_UI_HOST=0.0.0.0 \
+  nanoclaw-web-ui
+
+# Run with authentication (recommended for production)
+docker run -p 3000:3000 \
+  -e WEB_UI_HOST=0.0.0.0 \
+  -e WEB_UI_AUTH_TOKEN=your-strong-secret \
+  nanoclaw-web-ui
 ```
+
+> **Important:** `WEB_UI_HOST=0.0.0.0` is required when running in Docker. Without it, the server
+> binds to `localhost` inside the container and will refuse all incoming connections.
 
 ### Docker Compose
 
-```yaml
-version: '3.8'
-services:
-  web-ui:
-    image: nanoclaw-web-ui:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - WEB_UI_AUTH_TOKEN=your-secret-token
-    restart: unless-stopped
+```bash
+# Copy the example env file and edit as needed
+cp .env.example .env
+
+# Start the service
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop the service
+docker compose down
 ```
+
+To enable authentication, edit `.env` and set `WEB_UI_AUTH_TOKEN=your-strong-secret`, then
+uncomment the `WEB_UI_AUTH_TOKEN` line in `docker-compose.yml`.
 
 ## Documentation
 

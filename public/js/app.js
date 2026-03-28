@@ -2125,7 +2125,9 @@ async function checkServiceInfo() {
     const response = await fetch('/api/health');
     if (response.ok) {
       const data = await response.json();
-      versionEl.textContent = data.version || '1.0.0';
+      versionEl.textContent = data.version || '-';
+      const settingsVersionEl = document.getElementById('settings-version');
+      if (settingsVersionEl) settingsVersionEl.textContent = data.version || '-';
 
       // Update status to online
       if (statusEl) {
