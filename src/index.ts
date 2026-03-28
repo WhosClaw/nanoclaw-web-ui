@@ -3,6 +3,10 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+
+const _require = createRequire(import.meta.url);
+const APP_VERSION: string = (_require('../package.json') as { version: string }).version;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -92,6 +96,7 @@ export class WebUIServer {
     this.app.get('/api/health', (_req, res) => {
       res.json({
         status: 'ok',
+        version: APP_VERSION,
         assistant: this.config.ASSISTANT_NAME,
         timestamp: new Date().toISOString(),
       });

@@ -7,6 +7,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `Dockerfile`: multi-stage build using `node:20-alpine` for lean production images
+- `docker-compose.yml` for straightforward local and production deployments
+- `.dockerignore` to exclude `node_modules/`, `dist/`, `.git/`, and secrets from build context
+- `.env.example` documenting all supported environment variables with defaults
+- `HEALTHCHECK` in both Dockerfile and docker-compose using `/api/health`
+- Container runs as non-root user (`appuser`) for improved security
+- `/api/health` response now includes a `version` field read from `package.json`
+- Version displayed in the UI (service info panel and settings) is now populated dynamically from the API
+
+### Fixed
+- Docker section in README now includes the required `WEB_UI_HOST=0.0.0.0` environment
+  variable, which was previously missing and would cause containers to refuse all connections
+- Settings panel displayed hardcoded version `1.1.0` instead of the actual running version
+
+## [1.2.2] - 2026-03-11
+
+### Security
+- Changed default host binding from `0.0.0.0` to `localhost` to prevent unintended exposure
+  on all network interfaces when authentication is not configured
+- Added `WEB_UI_HOST` environment variable to allow explicit override (set to `0.0.0.0` with
+  `WEB_UI_AUTH_TOKEN` when external access is required)
+
+## [1.2.1] - 2026-03-03
+
+### Added
+- Version compatibility table (Web UI ↔ NanoClaw) in README
+- Link to Chinese README (`README_zh-hans.md`)
+
+### Changed
+- User message text color changed to white on blue background for improved readability
+- Attachment button icon simplified to `+` (plus sign)
+- Attachment button reduced to 32×32px for a cleaner appearance
+
+## [1.2.0] - 2026-03-03
+
+### Added
+- Settings modal with language and theme switching
+- GitHub repository link in sidebar
+- Logo displayed in auth screen top-left corner
+- Logo and app name moved to sidebar top
+- Screenshot added to `docs/`
+- `CONTRIBUTING.md` development and contribution guide
+- Chinese README (`README_zh-hans.md`)
+
+### Changed
+- README streamlined significantly (339 → 170 lines)
+- GitHub links updated to correct URLs
+
+### Fixed
+- Null reference error with `assistantNameEl`
+- Text color in light mode for settings menu
+- i18n rendering with HTML content
+
 ## [1.1.0] - 2026-03-02
 
 ### 🎉 Feature Release - Production Ready
@@ -136,7 +190,6 @@ This release transforms NanoClaw Web UI into a feature-complete, production-read
 - Responsive web UI with dark theme
 - Vanilla JavaScript frontend (no framework dependencies)
 - TypeScript support with full type definitions
-- Docker support
 - Comprehensive documentation and examples
 
 ### Security

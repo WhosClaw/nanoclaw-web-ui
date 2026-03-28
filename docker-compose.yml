@@ -1,0 +1,27 @@
+services:
+  web-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nanoclaw-web-ui:latest
+    container_name: nanoclaw-web-ui
+    ports:
+      - "${WEB_UI_PORT:-3000}:3000"
+    environment:
+      # Bind to all interfaces inside the container (required for Docker networking)
+      - WEB_UI_HOST=0.0.0.0
+      - WEB_UI_PORT=3000
+      - STATIC_PATH=/app/public
+      # Uncomment and set a strong token to enable authentication:
+      # - WEB_UI_AUTH_TOKEN=${WEB_UI_AUTH_TOKEN}
+      # Optionally customize the assistant name:
+      # - ASSISTANT_NAME=${ASSISTANT_NAME:-NanoClaw}
+      # Enable debug logging:
+      # - DEBUG=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
